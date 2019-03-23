@@ -1,4 +1,4 @@
-package com.in28minutes.database.jdbc.controller;
+package com.in28minutes.database.jpa.controller;
 
 import java.util.List;
 
@@ -14,29 +14,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.in28minutes.database.jdbc.dao.PersonRepository;
-import com.in28minutes.database.jdbc.model.Person;
+import com.in28minutes.database.jpa.model.PersonEntity;
+import com.in28minutes.database.jpa.repository.PersonJpaRepository;
 
 @RestController
-@RequestMapping("/jdbc/people")
-public class PersonController {
+@RequestMapping("/jpa/people")
+public class PersonJpaController {
 	
-	private PersonRepository repository;
+	private PersonJpaRepository repository;
 
 	@Autowired
-	public PersonController(PersonRepository repository) {
+	public PersonJpaController(PersonJpaRepository repository) {
 		this.repository = repository;
 	}
 	
 	@GetMapping
-	public List<Person> findAll() {
+	public List<PersonEntity> findAll() {
 		return this.repository.findAll();
 	}
 
 	@GetMapping("/{id}")
-	public Person findById(@PathVariable Integer id) {
+	public PersonEntity findById(@PathVariable Integer id) {
 		return this.repository.findById(id);
 	}
+	
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteById(@PathVariable Integer id) {
@@ -44,23 +45,25 @@ public class PersonController {
 	}
 
 	@GetMapping("/name/{name}")
-	public List<Person> findByName(@PathVariable String name) {
+	public List<PersonEntity> findByName(@PathVariable String name) {
 		return this.repository.findByName(name);
 	}
 
 	@GetMapping("/location/{location}")
-	public List<Person> findByLocation(@PathVariable String location) {
+	public List<PersonEntity> findByLocation(@PathVariable String location) {
 		return this.repository.findByLocation(location);
 	}
 	
 	@PostMapping
-	public Person insert(@RequestBody Person person) {
-		return this.repository.insert(person);
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public void insert(@RequestBody PersonEntity person) {
+		this.repository.insert(person);
 	}
 
 	@PutMapping
-	public Person update(@RequestBody Person person) {
-		return this.repository.update(person);
+	@ResponseStatus(value = HttpStatus.OK)
+	public void update(@RequestBody PersonEntity person) {
+		this.repository.update(person);
 	}
 
 	@GetMapping("/count")
