@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -19,6 +20,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "person")
+@NamedQuery(name = "recuperar_todas_pessoas_com_namedQueries", query = "select p from PersonEntity p")
 public class PersonEntity implements Serializable {
 
 	private static final long serialVersionUID = -6254195068701270158L;

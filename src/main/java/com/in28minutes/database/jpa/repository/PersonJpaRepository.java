@@ -26,7 +26,7 @@ public class PersonJpaRepository {
 	}
 
 	public List<PersonEntity> findAll() {
-		return this.entityManager.createQuery("select p from PersonEntity p", PersonEntity.class).getResultList();
+		return this.entityManager.createNamedQuery("recuperar_todas_pessoas_com_namedQueries", PersonEntity.class).getResultList();
 	}
 
 	public Integer count() {
